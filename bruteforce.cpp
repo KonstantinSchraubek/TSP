@@ -2,6 +2,8 @@
 #include <QThread>
 #include <QLineF>
 #include <QDebug>
+#include <algorithm>
+#include <bits/stdc++.h>
 
 BruteForce::BruteForce(QVector<QPoint> points) : Algo(points)
 {
@@ -11,44 +13,35 @@ BruteForce::BruteForce(QVector<QPoint> points) : Algo(points)
 QVector<QLineF> BruteForce::calc()
 {
     QVector<QLineF> lines;
-    QVector<QVector<QPoint>> allPosibilities;
-    QPoint start = mPoints[0];
 
-    for(int j = 0; j < mPoints.size(); j++){
-        QVector<QPoint> points;
-        points << start;
+    generateGraph();
 
-        for(int i = 1; i < mPoints.size(); i++){
-            points << mPoints[i];
+    QVector<int> vertex;
+    for (int i = 0; i < mGraph[0].size();i++) {
+        if(i != 0){
+            vertex.push_back(i);
         }
-
-        points << start;
-        allPosibilities << points;
     }
 
-    if(allPosibilities.size() != factorial(mPoints.length())){
-        qDebug() <<"not all hit - bruteforce";
-    }
-
-    QVector<QLineF> min;
-    int minInt = INT_MAX;
-    for(auto vec : allPosibilities){
+    int min_path = INT_MAX;
+    do {
+        int k = 0;
         QVector<QLineF> tryy;
-        for(int j = 0; j < vec.length(); j++){
-            if(j == vec.size() - 1){
-                continue;
-            }
-            QLineF l(vec[j].x(), vec[j].y(), vec[j+1].x(), vec[j+1].y());
-            tryy << l;
-        }
-        int len = lineLength(tryy);
-        if(len < minInt){
-            minInt = len;
-            min = tryy;
-        }
-    }
 
-    lines = min;
+        for(int i = 0; i < vertex.size(); i++){
+            tryy << mGraph[k][vertex[i]];
+            k = vertex[i];
+        }
+        tryy << mGraph[k][0];
+
+        int currentpath = lineLength(tryy);
+        if(currentpath < min_path){
+            min_path = currentpath;
+            lines = tryy;
+        }
+
+        min_path = std::min(min_path, lineLength(tryy));
+    } while(std::next_permutation(vertex.begin(), vertex.end()));
 
     mDone = true;
     return lines;
@@ -68,4 +61,16 @@ unsigned int BruteForce::factorial(unsigned int n)
     if (n == 0)
        return 1;
     return n * factorial(n - 1);
+}
+
+void BruteForce::generateGraph()
+{
+    for(int i = 0; i < mPoints.size(); i++){
+        QVector<QLineF> len;
+        for(int j = 0; j < mPoints.size(); j++){
+            QLineF l(mPoints[i].x(), mPoints[i].y(), mPoints[j].x(), mPoints[j].y());
+            len << l;
+        }
+        mGraph << len;
+    }
 }

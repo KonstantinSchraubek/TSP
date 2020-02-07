@@ -11,6 +11,10 @@ public:
     QVector<QLineF> calc();
     int lineLength(QVector<QLineF>& lines);
     unsigned int factorial(unsigned int n);
+    void generateGraph();
+
+private:
+    QVector<QVector<QLineF>> mGraph;
 };
 
 #endif // BRUTEFORCE_H
