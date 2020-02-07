@@ -7,7 +7,8 @@
 
 class Algo{
 public:
-    Algo(QVector<QPoint> p) : mPoints(p), mDone(false){}
+    Algo(QVector<QPoint> p) : mDone(false), mPoints(p){}
+    virtual ~Algo(){}
     virtual QVector<QLineF> calc() = 0;
     bool mDone;
 protected:

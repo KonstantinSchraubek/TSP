@@ -9,10 +9,10 @@
 Visualisation::Visualisation(QWidget *parent) :
     QWidget(parent),
     mPoints(QVector<QPoint>()),
+    mLines(QVector<QLineF>()),
     mAlg(nullptr),
     mTimer(new QElapsedTimer()),
-    mElapsed(0),
-    mLines(QVector<QLineF>())
+    mElapsed(0)
 {
 
 }
