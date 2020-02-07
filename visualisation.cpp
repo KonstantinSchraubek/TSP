@@ -75,11 +75,13 @@ void Visualisation::paintEvent(QPaintEvent *event)
     if(!mAlg) { return ; }
     if(!mAlg->mDone){ return; }
 
+    painter.setPen(QPen(Qt::blue));
     int length = 0;
     for(auto l : mLines){
         length += l.length();
         painter.drawLine(l);
     }
+
 
     QString info("Length: " + QString::number(length) + "\nTime spent: " + QString::number(mElapsed) + "ms\n");
     emit setInfo(info);
