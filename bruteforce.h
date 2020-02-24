@@ -9,6 +9,8 @@ class BruteForce : public Algo
 public:
     BruteForce(QVector<QPoint> points);
     QVector<QLineF> calc();
+
+private:
     int lineLength(QVector<QLineF>& lines);
     unsigned int factorial(unsigned int n);
     void generateGraph();

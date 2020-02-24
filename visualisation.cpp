@@ -40,6 +40,9 @@ void Visualisation::startAlg(int number)
             break;
         case 1:
             mAlg = new BruteForce(mPoints);
+            break;
+
+
         default:
             break;
     }
