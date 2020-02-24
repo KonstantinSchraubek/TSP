@@ -3,7 +3,6 @@
 #include <QLineF>
 #include <QDebug>
 #include <algorithm>
-#include <bits/stdc++.h>
 
 BruteForce::BruteForce(QVector<QPoint> points) : Algo(points)
 {
@@ -28,7 +27,7 @@ QVector<QLineF> BruteForce::calc()
         int k = 0;
         QVector<QLineF> tryy;
 
-        for(int i = 0; i < vertex.size(); i++){
+        for(int i = 0; i < vertex.size(); i++){            
             tryy << mGraph[k][vertex[i]];
             k = vertex[i];
         }
