@@ -30,6 +30,8 @@ void Visualisation::generatePoints(int number)
     emit update();
 }
 
+//determint witch algorithm is used and start call its calc
+//number comming from view
 void Visualisation::startAlg(int number)
 {
     if(mPoints.empty()){ return; }
@@ -53,6 +55,7 @@ void Visualisation::startAlg(int number)
     emit update();
 }
 
+//called once a frame or on window.update
 void Visualisation::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -60,11 +63,13 @@ void Visualisation::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::black);
     painter.setRenderHint(QPainter::Antialiasing);
 
+    //undraw
     if(mPoints.empty()){
         painter.eraseRect(0, 0, 600, 600);
         return;
     }
 
+    //draw points
     for(int i = 0; i < mPoints.length(); i++){
         QPoint p = mPoints.at(i);
         QRect r(p.x(), p.y(), 4, 4);
@@ -75,9 +80,11 @@ void Visualisation::paintEvent(QPaintEvent *event)
         painter.drawRect(r);
     }
 
+    //when alg is ready
     if(!mAlg) { return ; }
     if(!mAlg->mDone){ return; }
 
+    //change pencolor and calc length again + draw line
     painter.setPen(QPen(Qt::blue));
     int length = 0;
     for(auto l : mLines){
@@ -85,7 +92,7 @@ void Visualisation::paintEvent(QPaintEvent *event)
         painter.drawLine(l);
     }
 
-
+    //set info
     QString info("Length: " + QString::number(length) + "\nTime spent: " + QString::number(mElapsed) + "ms\n");
     emit setInfo(info);
 }

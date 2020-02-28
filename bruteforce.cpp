@@ -40,12 +40,14 @@ QVector<QLineF> BruteForce::calc()
         }
 
         min_path = std::min(min_path, lineLength(tryy));
+        //next permutation is giving next possibily for a given list/vector combination
     } while(std::next_permutation(vertex.begin(), vertex.end()));
 
     mDone = true;
     return lines;
 }
 
+//calc length of all lines
 int BruteForce::lineLength(QVector<QLineF> &lines)
 {
     int res = 0;
@@ -55,13 +57,7 @@ int BruteForce::lineLength(QVector<QLineF> &lines)
     return res;
 }
 
-unsigned int BruteForce::factorial(unsigned int n)
-{
-    if (n == 0)
-       return 1;
-    return n * factorial(n - 1);
-}
-
+//forms a tradinional graph form the points
 void BruteForce::generateGraph()
 {
     for(int i = 0; i < mPoints.size(); i++){
